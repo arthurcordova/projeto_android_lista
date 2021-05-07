@@ -1,5 +1,6 @@
 package com.mobway.minhaprimeiralista
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         carregarElementos()
         carregarArray()
 
+
         /**
          * Necessário passar um adapter para o RecyclerView trabalhar
          * Adapter é o responsável por manipulação do layout x dados
@@ -29,6 +31,17 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         AdapterRecyclerView(this, meuArrayDeAnimais, this).let {
             recyclerView?.adapter = it
         }
+
+        /**
+         * Forma mais fácil de fazer o on click
+         *
+         * (Não esta sendo usado no momento)
+         */
+        val adapter = AdapterFacilRecyclerView(this, meuArrayDeAnimais) {
+            Toast.makeText(this, it.nome, Toast.LENGTH_SHORT).show()
+        }
+
+
 
         /**
          * Necessário passar um LayoutManager para o RecyclerView trabalhar
@@ -56,7 +69,10 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun onClickItem(view: View?, index: Int) {
-        Toast.makeText(this, meuArrayDeAnimais[index].nome, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, DetalhesActivity::class.java)
+        intent.putExtra("parametro_nome", meuArrayDeAnimais[index].nome)
+        intent.putExtra("parametro_objeto", meuArrayDeAnimais[index])
+        startActivity(intent)
     }
 
 
