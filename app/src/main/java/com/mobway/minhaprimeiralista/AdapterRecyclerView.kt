@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mobway.minhaprimeiralista.model.Pessoa
 
 class AdapterRecyclerView(
     val context: Context,
-    val nossaListaDePessoas: ArrayList<Pessoa>
-
+    val nossaListaDePessoas: ArrayList<Pessoa>,
+    val onClick: ItemClickListener? = null
 ) : RecyclerView.Adapter<ViewHolderPessoas>() {
 
     /**
@@ -21,7 +22,7 @@ class AdapterRecyclerView(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderPessoas {
         val inflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.item_da_nossa_lista, parent, false)
-        return ViewHolderPessoas(view)
+        return ViewHolderPessoas(view, onClick)
     }
 
     /**
@@ -47,7 +48,7 @@ class AdapterRecyclerView(
 /**
  * View onde serão manipulados os elementos da tela com o Kotlin
  */
-class ViewHolderPessoas(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ViewHolderPessoas(itemView: View, private val onClick: ItemClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     var textViewTitulo: TextView
     var textViewSubtitulo: TextView
@@ -57,6 +58,20 @@ class ViewHolderPessoas(itemView: View) : RecyclerView.ViewHolder(itemView) {
         textViewTitulo = itemView.findViewById(R.id.textView_titulo)
         textViewSubtitulo = itemView.findViewById(R.id.textView_subtitulo)
         imageViewAvatar = itemView.findViewById(R.id.imageViewAvatar)
+
+        itemView.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        onClick?.onClickItem(v, adapterPosition)
     }
 
 }
+
+interface ItemClickListener {
+
+    fun onClickItem(view: View?, index: Int)
+
+}
+
+

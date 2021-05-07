@@ -2,11 +2,15 @@ package com.mobway.minhaprimeiralista
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobway.minhaprimeiralista.model.Pessoa
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ItemClickListener {
 
     var recyclerView: RecyclerView? = null
     lateinit var meuArrayDeAnimais: ArrayList<Pessoa>
@@ -22,7 +26,9 @@ class MainActivity : AppCompatActivity() {
          * Necessário passar um adapter para o RecyclerView trabalhar
          * Adapter é o responsável por manipulação do layout x dados
          */
-        recyclerView?.adapter = AdapterRecyclerView(this, meuArrayDeAnimais)
+        AdapterRecyclerView(this, meuArrayDeAnimais, this).let {
+            recyclerView?.adapter = it
+        }
 
         /**
          * Necessário passar um LayoutManager para o RecyclerView trabalhar
@@ -47,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         meuArrayDeAnimais.add(Pessoa("Arthur", 34, R.drawable.ic_android_black_24dp))
         meuArrayDeAnimais.add(Pessoa("Pedro", 2, R.drawable.ic_baseline_flight_24))
         meuArrayDeAnimais.add(Pessoa("Joaquim", 3, R.drawable.ic_baseline_accessibility_24))
+    }
+
+    override fun onClickItem(view: View?, index: Int) {
+        Toast.makeText(this, meuArrayDeAnimais[index].nome, Toast.LENGTH_SHORT).show()
     }
 
 
