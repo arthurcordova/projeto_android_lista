@@ -9,5 +9,6 @@ class Pessoa(
     val idade: Int,
     @DrawableRes
     val photo: Int,
+    val sexo: String
 
 ) : Serializable

@@ -31,7 +31,7 @@ class AdapterRecyclerView(
     override fun onBindViewHolder(holder: ViewHolderPessoas, position: Int) {
         nossaListaDePessoas[position].also {
             holder.textViewTitulo.text = it.nome
-            holder.textViewSubtitulo.text = "Idade: ${it.idade}"
+            holder.textViewSubtitulo.text = "Idade: ${it.idade} Sexo: ${it.sexo}"
             holder.imageViewAvatar.setImageResource(it.photo)
         }
     }
@@ -43,12 +43,23 @@ class AdapterRecyclerView(
     override fun getItemCount(): Int {
         return nossaListaDePessoas.size
     }
+
+    fun addItem(pessoa: Pessoa) {
+        nossaListaDePessoas.add(pessoa)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(index: Int) {
+        nossaListaDePessoas.removeAt(index)
+        notifyDataSetChanged()
+    }
 }
 
 /**
  * View onde serão manipulados os elementos da tela com o Kotlin
  */
-class ViewHolderPessoas(itemView: View, private val onClick: ItemClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+class ViewHolderPessoas(itemView: View, private val nossaInterface: ItemClickListener?) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
 
     var textViewTitulo: TextView
     var textViewSubtitulo: TextView
@@ -60,10 +71,16 @@ class ViewHolderPessoas(itemView: View, private val onClick: ItemClickListener?)
         imageViewAvatar = itemView.findViewById(R.id.imageViewAvatar)
 
         itemView.setOnClickListener(this)
+        itemView.setOnLongClickListener(this)
     }
 
     override fun onClick(v: View?) {
-        onClick?.onClickItem(v, adapterPosition)
+        nossaInterface?.onClickItem(v, adapterPosition)
+    }
+
+    override fun onLongClick(v: View?): Boolean {
+        nossaInterface?.onLongClickItem(v, adapterPosition)
+        return true
     }
 
 }
@@ -71,6 +88,7 @@ class ViewHolderPessoas(itemView: View, private val onClick: ItemClickListener?)
 interface ItemClickListener {
 
     fun onClickItem(view: View?, index: Int)
+    fun onLongClickItem(view: View?, index: Int)
 
 }
 

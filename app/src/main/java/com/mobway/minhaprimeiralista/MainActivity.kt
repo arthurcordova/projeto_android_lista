@@ -3,8 +3,6 @@ package com.mobway.minhaprimeiralista
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +12,8 @@ import com.mobway.minhaprimeiralista.model.Pessoa
 class MainActivity : AppCompatActivity(), ItemClickListener {
 
     var recyclerView: RecyclerView? = null
+    var fabButton: View? = null
+    var adapter: AdapterRecyclerView? = null
     lateinit var meuArrayDeAnimais: ArrayList<Pessoa>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,14 +21,16 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         setContentView(R.layout.activity_main)
 
         carregarElementos()
-        carregarArray()
+        carregarEventos()
 
+        carregarArray()
 
         /**
          * Necessário passar um adapter para o RecyclerView trabalhar
          * Adapter é o responsável por manipulação do layout x dados
          */
         AdapterRecyclerView(this, meuArrayDeAnimais, this).let {
+            adapter = it
             recyclerView?.adapter = it
         }
 
@@ -42,7 +44,6 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         }
 
 
-
         /**
          * Necessário passar um LayoutManager para o RecyclerView trabalhar
          * LayoutManager é o responsável por dar uma orientação ao scroll e forma que o
@@ -51,11 +52,18 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         recyclerView?.layoutManager = LinearLayoutManager(this)
     }
 
+    fun carregarEventos() {
+        fabButton?.setOnClickListener {
+            adapter?.addItem(Pessoa("Nova pessoa", 10, R.drawable.ic_android_black_24dp, "F"))
+        }
+    }
+
     /**
      * Carrega o elemento RecyclerView da tela para o Kotlin
      */
     fun carregarElementos() {
         recyclerView = findViewById(R.id.rv_produtos)
+        fabButton = findViewById(R.id.fabAdd)
     }
 
     /**
@@ -63,9 +71,9 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
      */
     fun carregarArray() {
         meuArrayDeAnimais = ArrayList()
-        meuArrayDeAnimais.add(Pessoa("Arthur", 34, R.drawable.ic_android_black_24dp))
-        meuArrayDeAnimais.add(Pessoa("Pedro", 2, R.drawable.ic_baseline_flight_24))
-        meuArrayDeAnimais.add(Pessoa("Joaquim", 3, R.drawable.ic_baseline_accessibility_24))
+        meuArrayDeAnimais.add(Pessoa("Arthur", 34, R.drawable.ic_android_black_24dp, "M"))
+        meuArrayDeAnimais.add(Pessoa("Pedro", 2, R.drawable.ic_baseline_flight_24, "M"))
+        meuArrayDeAnimais.add(Pessoa("Joaquim", 3, R.drawable.ic_baseline_accessibility_24, "M"))
     }
 
     override fun onClickItem(view: View?, index: Int) {
@@ -73,6 +81,10 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         intent.putExtra("parametro_nome", meuArrayDeAnimais[index].nome)
         intent.putExtra("parametro_objeto", meuArrayDeAnimais[index])
         startActivity(intent)
+    }
+
+    override fun onLongClickItem(view: View?, index: Int) {
+        adapter?.removeItem(index)
     }
 
 
