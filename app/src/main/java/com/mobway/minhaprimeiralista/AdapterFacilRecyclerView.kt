@@ -12,8 +12,8 @@ import com.mobway.minhaprimeiralista.model.Pessoa
 
 class AdapterFacilRecyclerView(
     val context: Context,
-    val nossaListaDePessoas: ArrayList<Pessoa>,
-    val onClick: (Pessoa)-> Unit
+    val nossaListaDePessoas: ArrayList<String>,
+    val onClick: (String)-> Unit
 ) : RecyclerView.Adapter<ViewHolderFacilPessoas>() {
 
     /**
@@ -30,9 +30,9 @@ class AdapterFacilRecyclerView(
      */
     override fun onBindViewHolder(holder: ViewHolderFacilPessoas, position: Int) {
         nossaListaDePessoas[position].also {
-            holder.textViewTitulo.text = it.nome
-            holder.textViewSubtitulo.text = "Idade: ${it.idade}"
-            holder.imageViewAvatar.setImageResource(it.photo)
+            holder.textViewTitulo.text = it
+            holder.textViewSubtitulo.text = "Idade: ${it}"
+//            holder.imageViewAvatar.setImageResource(it)
         }
     }
 
@@ -48,7 +48,7 @@ class AdapterFacilRecyclerView(
 /**
  * View onde serão manipulados os elementos da tela com o Kotlin
  */
-class ViewHolderFacilPessoas(itemView: View, private val listParam: ArrayList<Pessoa>, private val onClickParam: (Pessoa) -> Unit) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+class ViewHolderFacilPessoas(itemView: View, private val listParam: ArrayList<String>, private val onClickParam: (String) -> Unit) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     var textViewTitulo: TextView
     var textViewSubtitulo: TextView

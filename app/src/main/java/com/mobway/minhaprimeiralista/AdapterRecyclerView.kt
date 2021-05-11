@@ -4,15 +4,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.mobway.minhaprimeiralista.model.Pessoa
 
 class AdapterRecyclerView(
     val context: Context,
-    val nossaListaDePessoas: ArrayList<Pessoa>,
+    val nossaListaDePessoas: ArrayList<String>,
     val onClick: ItemClickListener? = null
 ) : RecyclerView.Adapter<ViewHolderPessoas>() {
 
@@ -30,9 +32,9 @@ class AdapterRecyclerView(
      */
     override fun onBindViewHolder(holder: ViewHolderPessoas, position: Int) {
         nossaListaDePessoas[position].also {
-            holder.textViewTitulo.text = it.nome
-            holder.textViewSubtitulo.text = "Idade: ${it.idade} Sexo: ${it.sexo}"
-            holder.imageViewAvatar.setImageResource(it.photo)
+            holder.textViewTitulo.text = it
+            holder.textViewSubtitulo.text = it//"Idade: ${it.idade} Sexo: ${it.sexo}"
+//            holder.imageViewAvatar.setImageResource(it.photo)
         }
     }
 
@@ -44,13 +46,23 @@ class AdapterRecyclerView(
         return nossaListaDePessoas.size
     }
 
-    fun addItem(pessoa: Pessoa) {
-        nossaListaDePessoas.add(pessoa)
-        notifyDataSetChanged()
+    fun addItem(newStr: String) {
+        nossaListaDePessoas.add(newStr)
+        notifyList()
     }
 
     fun removeItem(index: Int) {
         nossaListaDePessoas.removeAt(index)
+        notifyList()
+    }
+
+    fun update(listaFiltrada: ArrayList<String>) {
+        nossaListaDePessoas.clear()
+        nossaListaDePessoas.addAll(listaFiltrada)
+        notifyList()
+    }
+
+    private fun notifyList() {
         notifyDataSetChanged()
     }
 }
@@ -64,14 +76,22 @@ class ViewHolderPessoas(itemView: View, private val nossaInterface: ItemClickLis
     var textViewTitulo: TextView
     var textViewSubtitulo: TextView
     var imageViewAvatar: ImageView
+    var barOptions: View
+    var buttonDelete: Button
 
     init {
         textViewTitulo = itemView.findViewById(R.id.textView_titulo)
         textViewSubtitulo = itemView.findViewById(R.id.textView_subtitulo)
         imageViewAvatar = itemView.findViewById(R.id.imageViewAvatar)
+        barOptions = itemView.findViewById(R.id.barOptions)
+        buttonDelete = itemView.findViewById(R.id.buttonDelete)
 
         itemView.setOnClickListener(this)
         itemView.setOnLongClickListener(this)
+
+        buttonDelete.setOnClickListener {
+            nossaInterface?.onLongClickItem(it, adapterPosition)
+        }
     }
 
     override fun onClick(v: View?) {
@@ -79,7 +99,11 @@ class ViewHolderPessoas(itemView: View, private val nossaInterface: ItemClickLis
     }
 
     override fun onLongClick(v: View?): Boolean {
-        nossaInterface?.onLongClickItem(v, adapterPosition)
+        if (barOptions.visibility == View.VISIBLE) {
+            barOptions.visibility = View.INVISIBLE
+        } else if (barOptions.visibility == View.INVISIBLE) {
+            barOptions.visibility = View.VISIBLE
+        }
         return true
     }
 
