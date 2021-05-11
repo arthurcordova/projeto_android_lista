@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     }
 
 
-    fun concatenar(mensagem: String, resultado: Float) : String{
-        return "$mensagem o resultado é: $resultado"
+    fun concatenar(resultado: Float) : String{
+        return if (resultado > 8.0) "Aprovado: $resultado" else "Resprovado: $resultado"
     }
 
 
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     fun carregarEventos() {
         fabButton?.setOnClickListener {
 
-            textViewRodape?.text = concatenar("Minha mensagem", 10.0F)
+            textViewRodape?.text = concatenar( 10.0F)
 
 //            adapter?.update(nossaListaNova)
 
