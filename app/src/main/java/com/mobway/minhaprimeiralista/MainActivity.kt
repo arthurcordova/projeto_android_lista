@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     var fabButton: View? = null
     var adapter: AdapterRecyclerView? = null
     var editTextFilter: EditText? = null
+    var textViewRodape: TextView? = null
     lateinit var nossaLista: ArrayList<String>
     lateinit var listaBase: ArrayList<String>
 
@@ -52,6 +54,8 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
 //        }
 
 
+
+
         /**
          * Necessário passar um LayoutManager para o RecyclerView trabalhar
          * LayoutManager é o responsável por dar uma orientação ao scroll e forma que o
@@ -60,8 +64,17 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         recyclerView?.layoutManager = LinearLayoutManager(this)
     }
 
+
+    fun concatenar(mensagem: String, resultado: Float) : String{
+        return "$mensagem o resultado é: $resultado"
+    }
+
+
+
     fun carregarEventos() {
         fabButton?.setOnClickListener {
+
+            textViewRodape?.text = concatenar("Minha mensagem", 10.0F)
 
 //            adapter?.update(nossaListaNova)
 
@@ -112,6 +125,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         recyclerView = findViewById(R.id.rv_produtos)
         fabButton = findViewById(R.id.fabAdd)
         editTextFilter = findViewById(R.id.editTextFilter)
+        textViewRodape = findViewById(R.id.textViewRodape)
     }
 
     /**
