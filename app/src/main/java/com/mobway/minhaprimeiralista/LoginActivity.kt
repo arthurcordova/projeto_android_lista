@@ -17,8 +17,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var buttonLogin: Button
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -49,16 +47,28 @@ class LoginActivity : AppCompatActivity() {
         setString.add("ovelha")
 
         // Lista que trablha com chave/valor
-        val hashMap = hashMapOf<String, User>()
-        hashMap.put("aaa", User("email", "s1287321783"))
-        hashMap.put("bb", User("email", "s1287321783"))
-        hashMap.put("cccccccccccc", User("email", "s1287321783"))
+        val hashMap = hashMapOf<Int, User>()
+        hashMap.put(111, User("arthur@gmail.com", "s1287321783"))
+        hashMap.put(222, User("joao@gmail.com", "s1287321783"))
+        hashMap.put(987, User("maria@gmail.com", "s1287321783"))
+
+        for ((key, value) in hashMap) {
+
+            println("$key -> ${value.email}")
+
+        }
+
 
         val hashMapDependents = hashMapOf<Long, MutableSet<String>>()
         hashMapDependents.put(878976786786, mutableSetOf("Arthur", "Arthur", "Maria"))
         hashMapDependents.put(878976786734, mutableSetOf("Jose", "Pedro", "Joaquim"))
 
-        println(setString)
+        for ((key, value) in hashMapDependents) {
+            println("$key -> ")
+            value.forEach {
+                println("$it")
+            }
+        }
     }
 
     fun validarSenha() {
