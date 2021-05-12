@@ -2,4 +2,11 @@
     <string name="app_name">MInha primeira lista</string>
     <string name="deseja_excluir_o_resgitro">Deseja excluir o registro?</string>
     <string name="sim">Sim</string>
+    <string-array name="string_array_nams">
+        <item>Arthur</item>
+        <item>ALine</item>
+        <item>Joaquim</item>
+        <item>Pedro</item>
+    </string-array>
+
 </resources>

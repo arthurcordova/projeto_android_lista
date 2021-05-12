@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.mobway.minhaprimeiralista.model.Pessoa
+import com.mobway.minhaprimeiralista.model.SaveData
 
 class MainActivity : AppCompatActivity(), ItemClickListener {
 
@@ -32,6 +33,10 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
 
         carregarElementos()
         carregarEventos()
+
+
+        println(SaveData.user?.email)
+
 
         carregarArray()
 

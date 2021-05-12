@@ -11,4 +11,6 @@ class Pessoa(
     val photo: Int,
     val sexo: String
 
-) : Serializable
+) : Serializable {
+
+}
