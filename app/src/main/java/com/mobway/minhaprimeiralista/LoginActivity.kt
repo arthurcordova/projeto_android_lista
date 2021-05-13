@@ -9,6 +9,7 @@ import android.widget.EditText
 import com.mobway.minhaprimeiralista.model.Pessoa
 import com.mobway.minhaprimeiralista.model.SaveData
 import com.mobway.minhaprimeiralista.model.User
+import java.text.DecimalFormat
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextSenha = findViewById(R.id.editTextSenha)
         buttonLogin = findViewById(R.id.buttonLogin)
+
 
         buttonLogin.setOnClickListener {
 
